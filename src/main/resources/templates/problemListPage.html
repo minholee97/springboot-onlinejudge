@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>문제 리스트</title>
+</head>
+<body>
+    <h3>문제 리스트</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <td>No</td>
+                <td>문제</td>
+                <td>Time Limit</td>
+                <td>Memory Limit</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="problemDto, status: ${problemDtoList}">
+                <td th:text="${problemDto.id}"></td>
+                <!-- <td th:text="${problemDto.taskName}" th:onclick="'pageMove(' + ${problemDto.id} + ');'"></td> -->
+                <td>
+                    <a th:href="@{/problem/{id}(id=${problemDto.id})}" th:text="${problemDto.taskName}"></a>
+                </td>
+                <td th:text="${problemDto.timeLimit}"></td>
+                <td th:text="${problemDto.memoryLimit}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
