@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="~{layouts/layout1}">
+    <div layout:fragment="content">
+        <table class="table" border="1">
+            <thead>
+            <tr class="table-secondary">
+                <td>No</td>
+                <td>사용자</td>
+                <td>채점 현황</td>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text="${id}"></td>
+                    <td th:text="${name}"></td>
+                    <div th:if="${result.equals('true')}">
+                        <td class="text-success">
+                            <strong>정답</strong>
+                        </td>
+                    </div>
+                    <div th:if="${result.equals('false')}">
+                        <td class="text-danger">
+                            <strong>오답</strong>
+                        </td>
+                    </div>
+                    <div th:if="${result.equals('compile error')}">
+                        <td class="text-warning">
+                            <strong>컴파일 오류</strong>
+                        </td>
+                    </div>
+                </tr>
+            </tbody>
+    </div>
+</html>

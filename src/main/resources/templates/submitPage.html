@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="~{layouts/layout1}">
+
+    <div layout:fragment="content">
+        <!-- <p th:text="${id}"></p> -->
+        <form action="/submit" method="post">
+            <input type="hidden" name="problemId" th:value="${id}">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="lang" id="exampleRadios1" value="JAVA" checked>
+                <label class="form-check-label" for="exampleRadios1">
+                    JAVA
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="lang" id="exampleRadios2" value="C++" disabled>
+                <label class="form-check-label" for="exampleRadios2">
+                    C++
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="lang" id="exampleRadios3" value="Python" disabled>
+                <label class="form-check-label" for="exampleRadios3">
+                    Python
+                </label>
+            </div>
+            사용자 이름 : <input type="text" name="userName"><br>
+            코드 : <p><textarea name="userCode" cols="100" rows="20" placeholder="Input some code."></textarea></p>
+            <input class="btn btn-outline-secondary" type="submit">
+        </form>
+        </div>
+</html>

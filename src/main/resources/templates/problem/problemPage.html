@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="~{layouts/layout1}">
+
+<div layout:fragment="content">
+    <h2 th:text="|${problemDto.id}. ${problemDto.taskName}|"></h2>
+    <hr>
+    <h6 th:text="|Time Limit: ${problemDto.timeLimit} sec / Memory Limit: ${problemDto.memoryLimit} MB|"></h6>
+    <br>
+    <br>
+    <h4>문제 설명</h4>
+    <p th:text="|${problemDto.problemStatement}|"></p>
+    <br>
+    <br>
+    <h4 th:if="${problemDto.problemConstraint != null}">제약사항</h4>
+    <p th:text="|${problemDto.problemConstraint}|"></p>
+    <hr>
+    <br>
+    <h4>Sample Input</h4>
+    <p th:text="|${problemDto.sampleInput}|"></p>
+    <br>
+    <h4>Sample Output</h4>
+    <p th:text="|${problemDto.sampleOutput}|"></p>
+    <br>
+    <a th:href="@{/submit/{id}(id=${problemDto.id})}" type="button" class="btn btn-outline-secondary">제출</a>
+</div>
+</html>

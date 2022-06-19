@@ -13,7 +13,7 @@ import javax.persistence.*;
 @ToString
 public class Problem {
 
-    @Id @Column(name = "problem_id")
+    @Id @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
