@@ -11,7 +11,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class TestCaseDto {
     private Long id;
-    private Long problemId;
     private String inputData;
     private String outputData;
 }

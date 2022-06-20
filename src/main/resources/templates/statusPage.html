@@ -6,30 +6,20 @@
         <table class="table" border="1">
             <thead>
             <tr class="table-secondary">
-                <td>No</td>
+                <td>채점 번호</td>
+                <td>문제 번호</td>
                 <td>사용자</td>
+                <td>언어</td>
                 <td>채점 현황</td>
             </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td th:text="${id}"></td>
-                    <td th:text="${name}"></td>
-                    <div th:if="${result.equals('true')}">
-                        <td class="text-success">
-                            <strong>정답</strong>
-                        </td>
-                    </div>
-                    <div th:if="${result.equals('false')}">
-                        <td class="text-danger">
-                            <strong>오답</strong>
-                        </td>
-                    </div>
-                    <div th:if="${result.equals('compile error')}">
-                        <td class="text-warning">
-                            <strong>컴파일 오류</strong>
-                        </td>
-                    </div>
+                <tr th:each="statusDto, status: ${statusDtoList}">
+                    <td th:text="${statusDto.id}"></td>
+                    <td th:text="${statusDto.problemId}"></td>
+                    <td th:text="${statusDto.memberEmail}"></td>
+                    <td th:text="${statusDto.language}"></td>
+                    <td th:text="${statusDto.statusType}"></td>
                 </tr>
             </tbody>
     </div>

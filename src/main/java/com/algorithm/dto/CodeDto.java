@@ -10,8 +10,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class CodeDto {
-    private String problemId;
+    private Long problemId;
     private String lang;
-    private String userName;
-    private String userCode;
+    private String memberCode;
+    private String memberEmail;
 }

@@ -7,9 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ProblemDto {
+public class SampleCaseDto {
     private Long id;
-    private String taskName;
-    private int timeLimit;
-    private int memoryLimit;
+    private String sampleInput;
+    private String sampleOutput;
 }

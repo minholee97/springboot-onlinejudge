@@ -7,21 +7,22 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name="test_case")
+@Table(name="sample_case")
 @Getter
-@Setter
 @ToString(exclude = {"problem"})
-public class TestCase {
+public class SampleCase {
     @Id
-    @Column(name = "test_case_id")
+    @Column(name = "sample_case_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Lob
     @Column(nullable = false)
-    private String inputData;
+    private String sampleInput;
 
+    @Lob
     @Column(nullable = false)
-    private String outputData;
+    private String sampleOutput;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")

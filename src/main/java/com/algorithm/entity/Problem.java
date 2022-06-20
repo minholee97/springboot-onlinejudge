@@ -5,16 +5,17 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="problem")
 @Getter
-@Setter
 @ToString
 public class Problem {
 
-    @Id @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @Column(name = "problem_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 40)
@@ -34,11 +35,9 @@ public class Problem {
     @Column(nullable = true)
     private String problemConstraint;
 
-    @Lob
-    @Column(nullable = false)
-    private String sampleInput;
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
+    List<SampleCase> sampleCases = new ArrayList<>();
 
-    @Lob
-    @Column(nullable = false)
-    private String sampleOutput;
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
+    List<TestCase> testCases = new ArrayList<>();
 }

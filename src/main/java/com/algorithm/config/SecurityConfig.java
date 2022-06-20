@@ -31,7 +31,7 @@ public class SecurityConfig {
                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                     .and()
                 .authorizeHttpRequests()
-                    .mvcMatchers("/", "/members/**", "/problem/**").permitAll()
+                    .mvcMatchers("/", "/members/**", "/problem/**", "/status/**").permitAll()
                     .mvcMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest()
                     .authenticated()
