@@ -1,12 +1,8 @@
 package com.algorithm.controller;
 
-import com.algorithm.dto.ProblemDetailDto;
 import com.algorithm.dto.ProblemDto;
-import com.algorithm.entity.Problem;
 import com.algorithm.service.ProblemService;
-import com.algorithm.service.StatusService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,15 +25,11 @@ public class ProblemController {
 
     @GetMapping("/problem/{id}")
     public String problemPage(@PathVariable String id, Model model) {
-        ProblemDetailDto problemDetailDto = problemService.getProblemDto(Long.parseLong(id));
-        if (problemDetailDto == null)
+        ProblemDto problemDto = problemService.getProblemDto(Long.parseLong(id), false);
+        if (problemDto == null)
             return "errorPage";
-        model.addAttribute("problemDetailDto", problemDetailDto);
+        model.addAttribute("problemDto", problemDto);
         return "problem/problemPage";
     }
 
-    @GetMapping(value = "/admin/problem/register")
-    public String problemForm() {
-        return "problem/problemForm";
-    }
 }

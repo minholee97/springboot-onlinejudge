@@ -1,8 +1,6 @@
 package com.algorithm.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +10,8 @@ import java.util.List;
 @Table(name="problem")
 @Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Problem {
 
     @Id @Column(name = "problem_id")

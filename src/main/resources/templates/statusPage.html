@@ -3,24 +3,71 @@
       xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
       layout:decorate="~{layouts/layout1}">
     <div layout:fragment="content">
+        <meta name="_csrf_header" th:content="${_csrf.headerName}">
+        <meta name="_csrf" th:content="${_csrf.token}">
+        <script th:inline="javascript">
+            $(document).ready(function() {
+                setInterval(reloadStatus, 1000)
+            })
+            var value = 1
+            function reloadStatus() {
+                var idList = []
+                $('#statusList > tr > .statusId').each(function(index, temp) {
+                    idList.push($(temp).text())
+                });
+                var header = $("meta[name='_csrf_header']").attr('content');
+                var token = $("meta[name='_csrf']").attr('content');
+                $.ajax({
+                    url: "/status/reload",
+                    beforeSend: function(xhr){
+                    xhr.setRequestHeader(header, token);
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        "idList": idList
+                    }
+                })
+                .done(function (res) {
+                    $('#statusList > tr > .statusType').each(function(index, temp) {
+                        $(temp).text(res[index]);
+                    });
+                });
+            }
+        </script>
+
         <table class="table" border="1">
             <thead>
-            <tr class="table-secondary">
-                <td>채점 번호</td>
-                <td>문제 번호</td>
-                <td>사용자</td>
-                <td>언어</td>
-                <td>채점 현황</td>
-            </tr>
+                <tr class="table-secondary">
+                    <td>채점 번호</td>
+                    <td>문제 번호</td>
+                    <td>사용자</td>
+                    <td>언어</td>
+                    <td>채점 현황</td>
+                </tr>
             </thead>
-            <tbody>
+            <tbody id="statusList">
                 <tr th:each="statusDto, status: ${statusDtoList}">
-                    <td th:text="${statusDto.id}"></td>
+                    <td class="statusId" th:text="${statusDto.id}"></td>
                     <td th:text="${statusDto.problemId}"></td>
                     <td th:text="${statusDto.memberEmail}"></td>
                     <td th:text="${statusDto.language}"></td>
-                    <td th:text="${statusDto.statusType}"></td>
+                    <td class="statusType" th:text="${statusDto.statusType}"></td>
                 </tr>
             </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${1 == statusDtoList.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link" href="#" th:href="@{/status/{id}(id=${id},page=${statusDtoList.pageable.pageNumber - 1})}" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item" th:classappend="${i == statusDtoList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                    <a class="page-link" href="#" th:href="@{/status/{id}(id=${id},page=${i - 1})}" th:text="${i}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${statusDtoList.totalPages == statusDtoList.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link" href="#" th:href="@{/status/{id}(id=${id},page=${statusDtoList.pageable.pageNumber + 1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </html>

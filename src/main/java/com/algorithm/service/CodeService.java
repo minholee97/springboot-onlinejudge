@@ -47,13 +47,21 @@ public class CodeService {
     public void processing(CodeDto codeDto, Status status) throws IOException, InterruptedException {
         String lang = codeDto.getLang();
         if (lang.equals("JAVA")) {
-            //status = new Status(codeDto.getMemberEmail(), codeDto.getProblemId(), codeDto.getMemberCode(), StatusType.IN_PROGRESS, Language.JAVA);
-            //statusRepository.save(status);
             BufferedOutputStream bs = null;
             String fileName = "Main.java";
             String fileContext = codeDto.getMemberCode();
+            String path = "codes/" + String.valueOf(status.getId());
+            File Folder = new File(path);
+            if (!Folder.exists()) {
+                try{
+                    Folder.mkdir();
+                }
+                catch(Exception e){
+                    e.getStackTrace();
+                }
+            }
             try {
-                bs = new BufferedOutputStream(new FileOutputStream("codes/" + fileName));
+                bs = new BufferedOutputStream(new FileOutputStream(path + "/" + fileName));
                 bs.write(fileContext.getBytes());
             } catch (Exception e) {
                 e.getStackTrace();
@@ -61,9 +69,9 @@ public class CodeService {
                 bs.close();
             }
             try {
-                Process process = Runtime.getRuntime().exec("cmd /c javac codes/Main.java");
+                Process process = Runtime.getRuntime().exec("cmd /c javac " + path + "/" + fileName);
                 process.waitFor();
-                if (new File("codes/Main.class").exists()) {
+                if (new File(path + "/Main.class").exists()) {
 
                 } else {
                     status.updateStatusType(StatusType.COMPILE_ERROR);
@@ -83,7 +91,7 @@ public class CodeService {
             try {
                 for (TestCaseDto testCaseDto : testCaseDtoList) {
                     run = Runtime.getRuntime();
-                    process = run.exec(new String[]{"cmd", "/c", "java codes/Main.java"});
+                    process = run.exec(new String[]{"cmd", "/c", "java " + path + "/" + fileName});
                     writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
                     writer.write(testCaseDto.getInputData());
                     writer.newLine();

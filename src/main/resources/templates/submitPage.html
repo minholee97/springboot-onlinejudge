@@ -25,7 +25,9 @@
                     Python
                 </label>
             </div>
-            코드 : <p><textarea name="memberCode" cols="100" rows="20" placeholder="Input some code."></textarea></p>
+            <div class="form-group">
+                <textarea class="form-control" name="memberCode" rows="20" placeholder="Input some code."></textarea>
+            </div>
             <input class="btn btn-outline-secondary" type="submit">
             <input type="hidden" name="memberEmail" th:value="${#authentication.name}">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

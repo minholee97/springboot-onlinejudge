@@ -1,8 +1,6 @@
 package com.algorithm.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +9,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString(exclude = {"problem"})
+@AllArgsConstructor
+@NoArgsConstructor
 public class TestCase {
     @Id
     @Column(name = "test_case_id")
@@ -27,3 +27,4 @@ public class TestCase {
     @JoinColumn(name = "problem_id")
     private Problem problem;
 }
+

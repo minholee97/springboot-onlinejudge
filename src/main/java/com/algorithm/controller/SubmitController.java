@@ -8,6 +8,10 @@ import com.algorithm.service.CodeService;
 import com.algorithm.service.StatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +26,6 @@ import java.util.List;
 public class SubmitController {
 
     private final CodeService codeService;
-    private final StatusService statusService;
 
     @GetMapping("/submit/{id}")
     public String submitPage(@PathVariable String id, Model model) {
@@ -32,20 +35,9 @@ public class SubmitController {
 
     @PostMapping("/submit")
     public String submitProcess(CodeDto codeDto, Model model) throws IOException, InterruptedException {
-        //System.out.println(codeDto);
         Status status = codeService.preprocessing(codeDto);
         codeService.processing(codeDto, status);
-        //model.addAttribute("name", codeDto.getUserName());
-        //model.addAttribute("id", codeDto.getProblemId());
-        //model.addAttribute("result", result);
         return "redirect:/status/" + String.valueOf(codeDto.getProblemId());
-        //return "/status/" + String.valueOf(codeDto.getProblemId());
     }
 
-    @GetMapping("/status/{id}")
-    public String statusPage(@PathVariable String id, Model model) {
-        List<StatusDto> statusDtoList = statusService.getStatusDtoListByProblemId(Long.parseLong(id));
-        model.addAttribute("statusDtoList", statusDtoList);
-        return "statusPage";
-    }
 }

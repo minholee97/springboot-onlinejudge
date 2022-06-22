@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<div layout:fragment="content">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <script th:inline="javascript">
+        function addNewSample() {
+            var id = [[${problemId}]]
+            var inputData = $('#sampleInput').val()
+            var outputData = $('#sampleOutput').val()
+            $('#sampleTbody').append("<tr><td class='in'>" + inputData + "</td><td class='out'>" + outputData + "</td></tr>")
+        }
+        function addNewTest() {
+            var id = [[${problemId}]]
+            var inputData = $('#testInput').val()
+            var outputData = $('#testOutput').val()
+            $('#testTbody').append("<tr><td class='in'>" + inputData + "</td><td class='out'>" + outputData + "</td></tr>")
+        }
+        function createObject() {
+            var sampleInput = [];
+            $('#sampleTbody > tr > .in').each(function(index, temp) {
+                sampleInput.push($(temp).text());
+            });
+            var sampleOutput = [];
+            $('#sampleTbody > tr > .out').each(function(index, temp) {
+                sampleOutput.push($(temp).text());
+            });
+            var sampleCaseDtos = [];
+            for (var i = 0; i < sampleInput.length; i++) {
+                var dto = {
+                    id : null,
+                    problemId : null,
+                    sampleInput: sampleInput[i],
+                    sampleOutput: sampleOutput[i]
+                }
+                sampleCaseDtos.push(dto)
+            }
+            var testInput = [];
+            $('#testTbody > tr > .in').each(function(index, temp) {
+                testInput.push($(temp).text());
+            });
+            var testOutput = [];
+            $('#testTbody > tr > .out').each(function(index, temp) {
+                testOutput.push($(temp).text());
+            });
+            var testCaseDtos = [];
+            for (var i = 0; i < testInput.length; i++) {
+                var dto = {
+                    id : null,
+                    inputData: testInput[i],
+                    outputData: testOutput[i]
+                }
+                testCaseDtos.push(dto)
+            }
+            var timeLimit = $('#time').val()
+            var memoryLimit = $('#memory').val()
+            var taskName = $('#taskName').val()
+            var problemStatement = $('#problemStatement').val()
+            var problemConstraint = $('#problemConstraint').val()
+            var newProblemDto = {
+                id : null,
+                memoryLimit : memoryLimit,
+                problemConstraint : problemConstraint,
+                problemStatement : problemStatement,
+                sampleCaseDtos : sampleCaseDtos,
+                taskName : taskName,
+                testCaseDtos : testCaseDtos,
+                timeLimit : timeLimit
+            }
+            var sendData = JSON.stringify(newProblemDto);
+            var header = $("meta[name='_csrf_header']").attr('content');
+            var token = $("meta[name='_csrf']").attr('content');
+            console.log(newProblemDto)
+            $.ajax({
+                url: "/admin/test",
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                type: "POST",
+                contentType: "application/json",
+                data: sendData
+            })
+            .done(function (res) {
+                console.log(res);
+            });
+        }
+    </script>
+    <h1>문제 등록</h1>
+    <form role="form" method="post" action="/admin/problem/register">
+        <div class="form-group">
+            <label>문제 제목</label>
+            <input id="taskName" type="text" name="taskName" class="form-control" placeholder="Task Name">
+        </div>
+        <div class="form-group">
+            <label for="time">Time Limit :</label>
+            <select id="time" name="timeLimit">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="memory">Memory Limit :</label>
+            <select id="memory" name="memoryLimit">
+                <option value="64">64</option>
+                <option value="128">128</option>
+                <option value="256">256</option>
+                <option value="512">512</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>문제 설명</label>
+            <textarea id="problemStatement" class="form-control" name="problemStatement" rows="20" placeholder="문제에 대한 설명을 입력해주세요."></textarea>
+        </div>
+        <div class="form-group">
+            <label>제약 조건</label>
+            <textarea id="problemConstraint" class="form-control" name="problemConstraint" rows="5" placeholder="문제의 제약 조건을 입력해주세요."></textarea>
+        </div>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button class="btn btn-primary">등록</button>
+    </form>
+    <hr>
+    <h2>Sample Case</h2>
+    <div>
+        <table class="table">
+            <thead>
+                <th>Input</th>
+                <th>Output</th>
+            </thead>
+            <tbody id="sampleTbody">
+
+            </tbody>
+        </table>
+        <label>Sample Input</label>
+        <textarea id="sampleInput" class="form-control" placeholder="Sample Input"></textarea>
+        <label>Sample Output</label>
+        <textarea id="sampleOutput" class="form-control" placeholder="Sample Output"></textarea>
+        <input type="button" class="btn btn-primary" onclick="addNewSample();" value="추가"></input>
+    </div>
+    <h2>Test Case</h2>
+    <div>
+        <table class="table">
+            <thead>
+                <th>Input</th>
+                <th>Output</th>
+            </thead>
+            <tbody id="testTbody">
+            </tbody>
+        </table>
+        <label>Test Input</label>
+        <textarea id="testInput" class="form-control" placeholder="Test Input"></textarea>
+        <label>Test Output</label>
+        <textarea id="testOutput" class="form-control" placeholder="Test Output"></textarea>
+        <input type="button" class="btn btn-primary" onclick="addNewTest();" value="추가"></input>
+    </div>
+    <button class="btn btn-primary" onclick="createObject();">객체</button>
+</div>
+
+</html>

@@ -26,14 +26,14 @@ public class MemberController {
     @GetMapping(value = "/register")
     public String memberForm(Model model) {
         model.addAttribute("memberDto", new MemberDto());
-        return "member/memberForm";
+        return "member/memberRegisterPage";
     }
 
 
     @PostMapping(value = "/new")
     public String newMember(@Valid MemberDto memberDto, BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
-            return "member/memberForm";
+            return "member/memberRegisterPage";
         }
 
         try {
@@ -41,7 +41,7 @@ public class MemberController {
             memberService.saveMember(member);
         } catch (IllegalStateException e){
             model.addAttribute("errorMessage", e.getMessage());
-            return "member/memberForm";
+            return "member/memberRegisterPage";
         }
 
         return "redirect:/";
@@ -49,12 +49,12 @@ public class MemberController {
 
     @GetMapping(value = "/login")
     public String loginMember() {
-        return "/member/memberLoginForm";
+        return "/member/memberLoginPage";
     }
 
     @GetMapping(value = "/login/error")
     public String loginError(Model model) {
         model.addAttribute("loginErrorMsg", "이메일 또는 비밀번호를 확인해주세요");
-        return "/member/memberLoginForm";
+        return "/member/memberLoginPage";
     }
 }

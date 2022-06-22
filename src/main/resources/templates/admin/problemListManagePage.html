@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="~{layouts/layout1}">
+
+<div layout:fragment="content">
+        <table class="table" border="1">
+            <thead>
+                <tr class="table-secondary">
+                    <td>No</td>
+                    <td>문제</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="problemDto, status: ${problemDtoList}">
+                    <td th:text="${problemDto.id}"></td>
+                    <td th:text="${problemDto.taskName}">
+                        <a th:text="${problemDto.taskName}"></a>
+                    </td>
+                    <td>
+                        <a th:href="@{/admin/problem/update/{id}(id=${problemDto.id})}">수정</a>
+                    </td>
+                    <td>삭제</td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+</html>

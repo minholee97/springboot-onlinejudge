@@ -1,8 +1,6 @@
 package com.algorithm.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -10,6 +8,8 @@ import javax.persistence.*;
 @Table(name="sample_case")
 @Getter
 @ToString(exclude = {"problem"})
+@NoArgsConstructor
+@AllArgsConstructor
 public class SampleCase {
     @Id
     @Column(name = "sample_case_id")
@@ -27,4 +27,10 @@ public class SampleCase {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")
     private Problem problem;
+
+    public SampleCase(String sampleInput, String sampleOutput, Problem problem) {
+        this.sampleInput = sampleInput;
+        this.sampleOutput = sampleOutput;
+        this.problem = problem;
+    }
 }
