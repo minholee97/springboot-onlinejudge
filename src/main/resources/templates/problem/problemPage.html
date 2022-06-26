@@ -10,7 +10,8 @@
     <br>
     <br>
     <h4>문제 설명</h4>
-    <p th:text="|${problemDto.problemStatement}|"></p>
+    <br>
+    <pre th:text="|${problemDto.problemStatement}|"></pre>
     <br>
     <br>
     <h4 th:if="${problemDto.problemConstraint != null}">제약사항</h4>
@@ -18,34 +19,20 @@
     <hr>
     <br>
     <h4>Sample</h4>
-    <div class="container p-3 bg-secondary text-white">
-        <div class="row">
-            <div class="col">
-                Input Data
-            </div>
-            <div class="col">
-                Output Data
-            </div>
-        </div>
-    </div>
-    <tr th:each="sample : ${problemDto.sampleCaseDtos}">
-        <div class="container p-3 border border-secondary">
-            <div class="row">
-                <div th:text="${sample.sampleInput}" class="col">
-                    Column
-                </div>
-                <div th:text="${sample.sampleOutput}" class="col">
-                    Column
-                </div>
-            </div>
-        </div>
-    </tr>
-<!--    <h4>Sample Input</h4>-->
-<!--    <p th:text="|${problemDto.sampleInput}|"></p>-->
-<!--    <br>-->
-<!--    <h4>Sample Output</h4>-->
-<!--    <p th:text="|${problemDto.sampleOutput}|"></p>-->
-<!--    <br>-->
+    <table class="table table-hover table-sm">
+        <thead>
+            <tr>
+            <th class="col-md-6">Input</th>
+            <th class="col-md-6">Output</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="sample : ${problemDto.sampleCases}">
+                <td th:text="${sample.sampleInput}"></td>
+                <td th:text="${sample.sampleOutput}"></td>
+            </tr>
+        </tbody>
+    </table>
     <a th:href="@{/submit/{id}(id=${problemDto.id})}" type="button" class="btn btn-outline-secondary">제출</a>
 </div>
 </html>

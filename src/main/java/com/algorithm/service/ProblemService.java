@@ -10,11 +10,14 @@ import com.algorithm.repository.ProblemRepository;
 import com.algorithm.repository.SampleCaseRepository;
 import com.algorithm.repository.TestCaseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +28,16 @@ public class ProblemService {
     private final TestCaseRepository testCaseRepository;
 
 
-    public List<ProblemDto> getProblemDtoList() {
-        List<Problem> problemList = problemRepository.findAll();
-        List<ProblemDto> problemDtoList = new ArrayList<>();
-        for (Problem problem : problemList) {
-            problemDtoList.add(new ProblemDto(problem.getId(), problem.getTaskName(), problem.getTimeLimit(), problem.getMemoryLimit()));
-        }
+    public Page<ProblemDto> getProblemDtoList(Pageable pageable) {
+        Page<Problem> problemList = problemRepository.findAllBy(pageable);
+        Page<ProblemDto> problemDtoList = problemList.map(new Function<Problem, ProblemDto>() {
+            @Override
+            public ProblemDto apply(Problem problem) {
+                ProblemDto problemDto = new ProblemDto(problem.getId(), problem.getTaskName(), problem.getTimeLimit(), problem.getMemoryLimit(), problem.getProblemStatement(), problem.getProblemConstraint());
+                return problemDto;
+            }
+        });
+        System.out.println(problemDtoList);
         return problemDtoList;
     }
 
@@ -63,16 +70,20 @@ public class ProblemService {
         List<TestCase> testCases = new ArrayList<>();
         Problem problem = new Problem(problemDto.getId(), problemDto.getTaskName(), problemDto.getTimeLimit(), problemDto.getMemoryLimit(), problemDto.getProblemStatement(), problemDto.getProblemConstraint(), null, null);
         problemRepository.save(problem);
-        for (SampleCaseDto sampleCaseDto : problemDto.getSampleCaseDtos()) {
+        for (SampleCaseDto sampleCaseDto : problemDto.getSampleCases()) {
             SampleCase sampleCase = new SampleCase(sampleCaseDto.getId(), sampleCaseDto.getSampleInput(), sampleCaseDto.getSampleOutput(), problem);
             sampleCaseRepository.save(sampleCase);
             sampleCases.add(sampleCase);
         }
-        for (TestCaseDto testCaseDto : problemDto.getTestCaseDtos()) {
+        for (TestCaseDto testCaseDto : problemDto.getTestCases()) {
             TestCase testCase = new TestCase(testCaseDto.getId(), testCaseDto.getInputData(), testCaseDto.getOutputData(), problem);
             testCaseRepository.save(testCase);
             testCases.add(testCase);
         }
         //problem = new Problem(problemDto.getId(), problemDto.getTaskName(), problemDto.getTimeLimit(), problemDto.getMemoryLimit(), problemDto.getProblemStatement(), problemDto.getProblemConstraint(), sampleCases, testCases);
+    }
+
+    public void deleteProblem(String id) {
+        problemRepository.deleteById(Long.parseLong(id));
     }
 }

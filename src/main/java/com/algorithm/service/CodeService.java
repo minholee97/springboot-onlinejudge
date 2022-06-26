@@ -52,34 +52,19 @@ public class CodeService {
             String path = "codes/" + String.valueOf(status.getId());
             File Folder = new File(path);
             if (!Folder.exists()) {
-                try{
-                    Folder.mkdir();
-                }
-                catch(Exception e){
-                    e.getStackTrace();
-                }
+                Folder.mkdir();
             }
-            try {
-                bs = new BufferedOutputStream(new FileOutputStream(path + "/" + fileName));
-                bs.write(fileContext.getBytes());
-            } catch (Exception e) {
-                e.getStackTrace();
-            } finally {
-                bs.close();
+            bs = new BufferedOutputStream(new FileOutputStream(path + "/" + fileName));
+            bs.write(fileContext.getBytes());
+            bs.close();
+            Process compileProcess = Runtime.getRuntime().exec("cmd /c javac " + path + "/" + fileName);
+            compileProcess.waitFor();
+            if (!new File(path + "/Main.class").exists()) {
+                status.updateStatus(StatusType.COMPILE_ERROR, 0);
+                statusRepository.save(status);
+                return;
             }
-            try {
-                Process process = Runtime.getRuntime().exec("cmd /c javac " + path + "/" + fileName);
-                process.waitFor();
-                if (new File(path + "/Main.class").exists()) {
 
-                } else {
-                    status.updateStatus(StatusType.COMPILE_ERROR, 0);
-                    statusRepository.save(status);
-                    return;
-                }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
             List<TestCaseDto> testCaseDtoList = loadTestCaseList(codeDto.getProblemId());
             boolean correct = true;
             Runtime run;
@@ -103,15 +88,13 @@ public class CodeService {
                     while ((line = reader.readLine()) != null) {
                         sb.append(line);
                     }
-                    result = sb.toString();
-                    boolean check;
+                    result = sb.toString().stripTrailing();
                     if (!result.equals(testCaseDto.getOutputData())) {
                         correct = false;
                         break;
                     }
                     correctCount += 1;
                     progress = (float)correctCount / (float)testCaseDtoList.size() * 100;
-                    //System.out.println(progress);
                     status.updateStatus(StatusType.IN_PROGRESS, progress);
                     statusRepository.save(status);
                     statusRepository.flush();

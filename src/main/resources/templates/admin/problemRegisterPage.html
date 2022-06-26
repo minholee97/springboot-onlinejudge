@@ -64,15 +64,14 @@
                 memoryLimit : memoryLimit,
                 problemConstraint : problemConstraint,
                 problemStatement : problemStatement,
-                sampleCaseDtos : sampleCaseDtos,
+                sampleCases : sampleCaseDtos,
                 taskName : taskName,
-                testCaseDtos : testCaseDtos,
+                testCases : testCaseDtos,
                 timeLimit : timeLimit
             }
             var sendData = JSON.stringify(newProblemDto);
             var header = $("meta[name='_csrf_header']").attr('content');
             var token = $("meta[name='_csrf']").attr('content');
-            console.log(newProblemDto)
             $.ajax({
                 url: "/admin/registerProblem",
                 beforeSend: function(xhr){
@@ -83,7 +82,7 @@
                 data: sendData
             })
             .done(function (res) {
-                location.replace("/admin/problemListManagePage");
+                location.replace("/admin/problem");
             });
         }
     </script>

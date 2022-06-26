@@ -4,19 +4,18 @@
       layout:decorate="~{layouts/layout1}">
 
 <div layout:fragment="content">
-        <table class="table" border="1">
+        <table class="table table-hover table-sm">
             <thead>
-                <tr class="table-secondary">
-                    <td>No</td>
-                    <td>문제</td>
-                    <td>Time Limit</td>
-                    <td>Memory Limit</td>
+                <tr>
+                    <th class="col-md-2">No</th>
+                    <th class="col-md-6">문제</th>
+                    <th class="col-md-2">Time Limit</th>
+                    <th class="col-md-2">Memory Limit</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="problemDto, status: ${problemDtoList}">
                     <td th:text="${problemDto.id}"></td>
-                    <!-- <td th:text="${problemDto.taskName}" th:onclick="'pageMove(' + ${problemDto.id} + ');'"></td> -->
                     <td>
                         <a th:href="@{/problem/{id}(id=${problemDto.id})}" th:text="${problemDto.taskName}"></a>
                     </td>
@@ -25,5 +24,18 @@
                 </tr>
             </tbody>
         </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${1 == problemDtoList.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" href="#" th:href="@{/problem/(page=${problemDtoList.pageable.pageNumber - 1})}" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item" th:classappend="${i == problemDtoList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <a class="page-link" href="#" th:href="@{/problem/(page=${i - 1})}" th:text="${i}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${problemDtoList.totalPages == problemDtoList.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" href="#" th:href="@{/problem/(page=${problemDtoList.pageable.pageNumber + 1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </html>

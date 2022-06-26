@@ -5,6 +5,9 @@ import com.algorithm.dto.SampleCaseDto;
 import com.algorithm.service.ProblemService;
 import com.algorithm.service.SampleCaseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +23,12 @@ public class AdminContoller {
     private final SampleCaseService sampleCaseService;
 
     @GetMapping("/admin/problem")
-    public String problemListPage(Model model) {
-        List<ProblemDto> problemDtoList = problemService.getProblemDtoList();
+    public String problemListPage(Model model, @PageableDefault(size = 20) Pageable pageable) {
+        Page<ProblemDto> problemDtoList = problemService.getProblemDtoList(pageable);
+        int startPage = Math.max(1, problemDtoList.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(problemDtoList.getTotalPages(), problemDtoList.getPageable().getPageNumber() + 4);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("problemDtoList", problemDtoList);
         return "admin/problemListManagePage";
     }
@@ -43,8 +50,16 @@ public class AdminContoller {
 
     @ResponseBody
     @PostMapping("/admin/registerProblem")
-    public String test(@RequestBody ProblemDto problemDto) {
+    public String registerProblem(@RequestBody ProblemDto problemDto) {
         problemService.setProblem(problemDto);
         return "success";
     }
+
+    @ResponseBody
+    @DeleteMapping("/admin/deleteProblem/{id}")
+    public String deleteProblem(@PathVariable String id) {
+        problemService.deleteProblem(id);
+        return "success";
+    }
+
 }

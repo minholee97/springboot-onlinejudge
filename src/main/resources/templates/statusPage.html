@@ -7,6 +7,14 @@
         <meta name="_csrf" th:content="${_csrf.token}">
         <script th:inline="javascript">
             $(document).ready(function() {
+                $('#statusList > tr > .statusType').each(function(index, temp) {
+                    if ($(temp).text() == "SUCCESS")
+                       $(temp).css("color", "green");
+                    else if ($(temp).text() == "COMPILE_ERROR")
+                       $(temp).css("color", "blue");
+                    else if ($(temp).text() == "FAIL")
+                       $(temp).css("color", "red");
+                });
                 setInterval(reloadStatus, 1000)
             })
             var value = 1
@@ -31,19 +39,25 @@
                 .done(function (res) {
                     $('#statusList > tr > .statusType').each(function(index, temp) {
                         $(temp).text(res[index]);
+                        if (res[index] == "SUCCESS")
+                            $(temp).css("color", "green");
+                        else if ($(temp).text() == "COMPILE_ERROR")
+                            $(temp).css("color", "blue");
+                        else if ($(temp).text() == "FAIL")
+                            $(temp).css("color", "red");
                     });
                 });
             }
         </script>
 
-        <table class="table" border="1">
+        <table class="table table-hover table-sm">
             <thead>
-                <tr class="table-secondary">
-                    <td>채점 번호</td>
-                    <td>문제 번호</td>
-                    <td>사용자</td>
-                    <td>언어</td>
-                    <td>채점 현황</td>
+                <tr>
+                    <th class="col-md-2" scope="col">채점 번호</th>
+                    <th class="col-md-2" scope="col">문제 번호</th>
+                    <th class="col-md-3" scope="col">사용자</th>
+                    <th class="col-md-2" scope="col">언어</th>
+                    <th class="col-md-3" scope="col">채점 현황</th>
                 </tr>
             </thead>
             <tbody id="statusList">
@@ -52,7 +66,7 @@
                     <td th:text="${statusDto.problemId}"></td>
                     <td th:text="${statusDto.memberEmail}"></td>
                     <td th:text="${statusDto.language}"></td>
-                    <td class="statusType" th:text="${statusDto.statusType}"></td>
+                    <td style="font-weight:bold" class="statusType" th:text="${statusDto.statusType}"></td>
                 </tr>
             </tbody>
         </table>

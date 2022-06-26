@@ -4,13 +4,32 @@
       layout:decorate="~{layouts/layout1}">
 
 <div layout:fragment="content">
-        <table class="table" border="1">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <script th:inline="javascript">
+            function deleteProblem(id) {
+                var header = $("meta[name='_csrf_header']").attr('content');
+                var token = $("meta[name='_csrf']").attr('content');
+                var url = "/admin/deleteProblem/" + id;
+                $.ajax({
+                    url: url,
+                    beforeSend: function(xhr){
+                        xhr.setRequestHeader(header, token);
+                    },
+                    type: "DELETE"
+                    })
+                .done(function (res) {
+                    location.replace("/admin/problem");
+                });
+            }
+    </script>
+        <table class="table table-hover table-sm">
             <thead>
-                <tr class="table-secondary">
-                    <td>No</td>
-                    <td>문제</td>
-                    <td></td>
-                    <td></td>
+                <tr>
+                    <th class="col-md-2">No</th>
+                    <th class="col-md-8">문제</th>
+                    <th class="col-md-1"></th>
+                    <th class="col-md-1"></th>
                 </tr>
             </thead>
             <tbody>
@@ -22,9 +41,24 @@
                     <td>
                         <a th:href="@{/admin/problem/update/{id}(id=${problemDto.id})}">수정</a>
                     </td>
-                    <td>삭제</td>
+                    <td>
+                        <a href="#" th:onclick="|javascript:deleteProblem('${problemDto.id}')|">삭제</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${1 == problemDtoList.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" href="#" th:href="@{/admin/problem/(page=${problemDtoList.pageable.pageNumber - 1})}" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item" th:classappend="${i == problemDtoList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <a class="page-link" href="#" th:href="@{/admin/problem/(page=${i - 1})}" th:text="${i}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${problemDtoList.totalPages == problemDtoList.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" href="#" th:href="@{/admin/problem/(page=${problemDtoList.pageable.pageNumber + 1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </html>

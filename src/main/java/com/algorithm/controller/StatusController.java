@@ -19,7 +19,7 @@ public class StatusController {
     private final StatusService statusService;
 
     @GetMapping("/status/{id}")
-    public String statusPage(@PathVariable String id, Model model, @PageableDefault(size = 10) Pageable pageable) {
+    public String statusPage(@PathVariable String id, Model model, @PageableDefault(size = 20) Pageable pageable) {
         Page<StatusDto> statusDtoList = statusService.getStatusDtoListByProblemId(Long.parseLong(id), pageable);
         int startPage = Math.max(1, statusDtoList.getPageable().getPageNumber() - 4);
         int endPage = Math.min(statusDtoList.getTotalPages(), statusDtoList.getPageable().getPageNumber() + 4);

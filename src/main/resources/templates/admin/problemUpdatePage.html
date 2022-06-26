@@ -14,19 +14,19 @@
             $('#problemStatement').val([[${problemDto.problemStatement}]])
             $('#problemConstraint').val([[${problemDto.problemConstraint}]])
             $('#sampleTbody').empty()
-            for (var i = 0; i < [[${problemDto.sampleCaseDtos}]].length; i++) {
+            for (var i = 0; i < [[${problemDto.sampleCases}]].length; i++) {
                 $('#sampleTbody').append("<tr><td class='in' >" +
-                [[${problemDto.sampleCaseDtos}]][i]["sampleInput"] +
+                [[${problemDto.sampleCases}]][i]["sampleInput"] +
                  "</td><td class='out'>" +
-                [[${problemDto.sampleCaseDtos}]][i]["sampleOutput"] +
+                [[${problemDto.sampleCases}]][i]["sampleOutput"] +
                 "</td></tr>")
             }
             $('#testTbody').empty()
-            for (var i = 0; i < [[${problemDto.testCaseDtos}]].length; i++) {
+            for (var i = 0; i < [[${problemDto.testCases}]].length; i++) {
                 $('#testTbody').append("<tr><td class='in' >" +
-                [[${problemDto.testCaseDtos}]][i]["inputData"] +
+                [[${problemDto.testCases}]][i]["inputData"] +
                  "</td><td class='out'>" +
-                [[${problemDto.testCaseDtos}]][i]["outputData"] +
+                [[${problemDto.testCases}]][i]["outputData"] +
                 "</td></tr>")
             }
             $('#testTbody > tr > .in').each(function(index, temp) {
@@ -113,9 +113,9 @@
                 memoryLimit : memoryLimit,
                 problemConstraint : problemConstraint,
                 problemStatement : problemStatement,
-                sampleCaseDtos : sampleCaseDtos,
+                sampleCases : sampleCaseDtos,
                 taskName : taskName,
-                testCaseDtos : testCaseDtos,
+                testCases : testCaseDtos,
                 timeLimit : timeLimit
             }
             var sendData = JSON.stringify(newProblemDto);
@@ -123,7 +123,7 @@
             var token = $("meta[name='_csrf']").attr('content');
             console.log(newProblemDto)
             $.ajax({
-                url: "/admin/test",
+                url: "/admin/registerProblem",
                 beforeSend: function(xhr){
                     xhr.setRequestHeader(header, token);
                 },
@@ -132,7 +132,7 @@
                 data: sendData
             })
             .done(function (res) {
-                console.log(res);
+                location.replace("/admin/problem");
             });
         }
     </script>
@@ -206,7 +206,7 @@
         <textarea id="testOutput" class="form-control" placeholder="Test Output"></textarea>
         <input type="button" class="btn btn-primary" onclick="addNewTest();" value="추가"></input>
     </div>
-    <button class="btn btn-primary" onclick="createObject();">객체</button>
+    <button class="btn btn-primary" onclick="createObject();">문제 수정</button>
 </div>
 
 </html>

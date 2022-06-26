@@ -18,21 +18,16 @@ public class Problem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 40)
     private String taskName;
 
-    @Column(nullable = false)
     private int timeLimit;
 
-    @Column(nullable = false)
     private int memoryLimit;
 
     @Lob
-    @Column(nullable = false)
     private String problemStatement;
 
     @Lob
-    @Column(nullable = true)
     private String problemConstraint;
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
