@@ -43,7 +43,6 @@ public class CodeService {
     }
 
     @Async
-    @Transactional
     public void processing(CodeDto codeDto, Status status) throws IOException, InterruptedException {
         String lang = codeDto.getLang();
         if (lang.equals("JAVA")) {
@@ -74,7 +73,7 @@ public class CodeService {
                 if (new File(path + "/Main.class").exists()) {
 
                 } else {
-                    status.updateStatusType(StatusType.COMPILE_ERROR);
+                    status.updateStatus(StatusType.COMPILE_ERROR, 0);
                     statusRepository.save(status);
                     return;
                 }
@@ -83,11 +82,13 @@ public class CodeService {
             }
             List<TestCaseDto> testCaseDtoList = loadTestCaseList(codeDto.getProblemId());
             boolean correct = true;
-            Runtime run = null;
+            Runtime run;
             Process process = null;
-            BufferedWriter writer = null;
+            BufferedWriter writer;
             BufferedReader reader = null;
-            String result = null;
+            String result;
+            float progress = 0l;
+            int correctCount = 0;
             try {
                 for (TestCaseDto testCaseDto : testCaseDtoList) {
                     run = Runtime.getRuntime();
@@ -96,23 +97,24 @@ public class CodeService {
                     writer.write(testCaseDto.getInputData());
                     writer.newLine();
                     writer.close();
-                    String line = null;
+                    String line;
                     StringBuffer sb = new StringBuffer();
                     reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                     while ((line = reader.readLine()) != null) {
                         sb.append(line);
                     }
                     result = sb.toString();
-                    boolean check = false;
-                    if (result.equals(testCaseDto.getOutputData())) {
-                        check = true;
-                    } else {
-                        check = false;
-                    }
-                    if (!check) {
+                    boolean check;
+                    if (!result.equals(testCaseDto.getOutputData())) {
                         correct = false;
                         break;
                     }
+                    correctCount += 1;
+                    progress = (float)correctCount / (float)testCaseDtoList.size() * 100;
+                    //System.out.println(progress);
+                    status.updateStatus(StatusType.IN_PROGRESS, progress);
+                    statusRepository.save(status);
+                    statusRepository.flush();
                 }
             } finally {
                 if (process != null) {
@@ -123,11 +125,11 @@ public class CodeService {
                 }
             }
             if (correct) {
-                status.updateStatusType(StatusType.SUCCESS);
+                status.updateStatus(StatusType.SUCCESS, progress);
                 statusRepository.save(status);
                 return;
             } else {
-                status.updateStatusType(StatusType.FAIL);
+                status.updateStatus(StatusType.FAIL, progress);
                 statusRepository.save(status);
                 return;
             }

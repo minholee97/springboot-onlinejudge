@@ -15,6 +15,6 @@ import java.util.List;
 public interface StatusRepository extends JpaRepository<Status, Long> {
     Page<StatusDto> findAllByProblemIdOrderByIdDesc(Long problemId, Pageable pageable);
 
-    @Query(value="select status_type from status where status_id = :id", nativeQuery = true)
-    public String findStatusTypeById(@Param("id") String id);
+    @Query(value="select status_type, progress from status where status_id = :id", nativeQuery = true)
+    List<Object[]> findStatusTypeById(@Param("id") String id);
 }

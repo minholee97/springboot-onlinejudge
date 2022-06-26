@@ -42,11 +42,8 @@ public class AdminContoller {
     }
 
     @ResponseBody
-    @PostMapping("/admin/test")
+    @PostMapping("/admin/registerProblem")
     public String test(@RequestBody ProblemDto problemDto) {
-        System.out.println("======");
-        System.out.println(problemDto.getSampleCaseDtos());
-        System.out.println("======");
         problemService.setProblem(problemDto);
         return "success";
     }

@@ -34,6 +34,9 @@ public class Status {
     @Enumerated(EnumType.STRING)
     private Language language;
 
+    private float progress;
+
+
     public Status(String memberEmail, Long problemId, String code, StatusType statusType, Language language) {
         this.memberEmail = memberEmail;
         this.problemId = problemId;
@@ -42,8 +45,9 @@ public class Status {
         this.language = language;
     }
 
-    public void updateStatusType(StatusType statusType) {
+    public void updateStatus(StatusType statusType, float progress) {
         this.statusType = statusType;
+        this.progress = progress;
     }
 
 }

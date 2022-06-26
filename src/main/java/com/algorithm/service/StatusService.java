@@ -27,7 +27,11 @@ public class StatusService {
     public List<String> getStatusTypeList(List<String> idList) {
         List<String> typeList = new ArrayList<>();
         for (String id : idList) {
-            String statusType = statusRepository.findStatusTypeById(id);
+            List<Object[]> result = statusRepository.findStatusTypeById(id);
+            String statusType = String.valueOf(result.get(0)[0]);
+            String progress = String.valueOf(((Float)result.get(0)[1]).intValue());
+            if (statusType.equals("IN_PROGRESS"))
+                statusType += " (" + progress + "%)";
             typeList.add(statusType);
         }
         return typeList;
