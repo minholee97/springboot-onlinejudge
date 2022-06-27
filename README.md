@@ -9,5 +9,7 @@
 
 ### 사용 기술
 - JAVA 11
-- Springboot 2.7.0
+- Spring boot 2.7.0
 - MySQL 8.0.27
+- JPA
+- spring security
