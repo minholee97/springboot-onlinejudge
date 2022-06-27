@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="status")
@@ -20,8 +22,6 @@ public class Status {
     @Column(name = "status_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String memberEmail;
 
     private Long problemId;
 
@@ -36,13 +36,17 @@ public class Status {
 
     private float progress;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    public Status(String memberEmail, Long problemId, String code, StatusType statusType, Language language) {
-        this.memberEmail = memberEmail;
+
+    public Status(Long problemId, String code, StatusType statusType, Language language, Member member) {
         this.problemId = problemId;
         this.code = code;
         this.statusType = statusType;
         this.language = language;
+        this.member = member;
     }
 
     public void updateStatus(StatusType statusType, float progress) {

@@ -7,15 +7,17 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 public class StatusDto {
     private Long id;
-    private String memberEmail;
     private Long problemId;
     private String code;
     private StatusType statusType;
     private Language language;
+    private String memberEmail;
 }

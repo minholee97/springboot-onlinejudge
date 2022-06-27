@@ -4,8 +4,10 @@ import com.algorithm.constant.Language;
 import com.algorithm.constant.StatusType;
 import com.algorithm.dto.CodeDto;
 import com.algorithm.dto.TestCaseDto;
+import com.algorithm.entity.Member;
 import com.algorithm.entity.Status;
 import com.algorithm.entity.TestCase;
+import com.algorithm.repository.MemberRepository;
 import com.algorithm.repository.StatusRepository;
 import com.algorithm.repository.TestCaseRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class CodeService {
 
     private final StatusRepository statusRepository;
     private final TestCaseRepository testCaseRepository;
+    private final MemberRepository memberRepository;
 
     public List<TestCaseDto> loadTestCaseList(Long problemId) {
         List<TestCase> testCaseList = testCaseRepository.findByProblemIdOrderById(problemId);
@@ -32,10 +35,11 @@ public class CodeService {
         }
         return testCaseDtoList;
     }
-    @Transactional
+
     public Status preprocessing(CodeDto codeDto) {
+        Member member = memberRepository.findByEmail(codeDto.getMemberEmail());
         if (codeDto.getLang().equals("JAVA")) {
-            Status status = new Status(codeDto.getMemberEmail(), codeDto.getProblemId(), codeDto.getMemberCode(), StatusType.IN_PROGRESS, Language.JAVA);
+            Status status = new Status(codeDto.getProblemId(), codeDto.getMemberCode(), StatusType.IN_PROGRESS, Language.JAVA, member);
             statusRepository.save(status);
             return status;
         }

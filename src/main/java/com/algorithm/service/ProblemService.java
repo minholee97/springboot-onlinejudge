@@ -37,7 +37,6 @@ public class ProblemService {
                 return problemDto;
             }
         });
-        System.out.println(problemDtoList);
         return problemDtoList;
     }
 

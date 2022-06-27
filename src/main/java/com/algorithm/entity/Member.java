@@ -6,6 +6,8 @@ import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="member")
@@ -14,7 +16,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 public class Member {
-    @Id @Column(name = "id")
+    @Id @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -27,6 +29,10 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Status> statusList = new ArrayList<>();
+
 
     public Member(String name, String email, String password, Role role) {
         this.name = name;

@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface StatusRepository extends JpaRepository<Status, Long> {
-    Page<StatusDto> findAllByProblemIdOrderByIdDesc(Long problemId, Pageable pageable);
+    Page<Status> findAllByProblemIdOrderByIdDesc(Long problemId, Pageable pageable);
 
     @Query(value="select status_type, progress from status where status_id = :id", nativeQuery = true)
     List<Object[]> findStatusTypeById(@Param("id") String id);

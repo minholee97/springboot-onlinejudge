@@ -1,9 +1,7 @@
 package com.algorithm.controller;
 
 import com.algorithm.dto.ProblemDto;
-import com.algorithm.dto.SampleCaseDto;
 import com.algorithm.service.ProblemService;
-import com.algorithm.service.SampleCaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,15 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
 @Controller
 @RequiredArgsConstructor
 public class AdminContoller {
 
     private final ProblemService problemService;
-    private final SampleCaseService sampleCaseService;
 
     @GetMapping("/admin/problem")
     public String problemListPage(Model model, @PageableDefault(size = 20) Pageable pageable) {
