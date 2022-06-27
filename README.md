@@ -13,3 +13,4 @@
 - MySQL 8.0.27
 - JPA
 - spring security
+- Thymeleaf
