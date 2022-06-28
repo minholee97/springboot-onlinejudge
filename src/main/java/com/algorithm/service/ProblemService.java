@@ -67,7 +67,7 @@ public class ProblemService {
     public void setProblem(ProblemDto problemDto) {
         List<SampleCase> sampleCases = new ArrayList<>();
         List<TestCase> testCases = new ArrayList<>();
-        Problem problem = new Problem(problemDto.getId(), problemDto.getTaskName(), problemDto.getTimeLimit(), problemDto.getMemoryLimit(), problemDto.getProblemStatement(), problemDto.getProblemConstraint(), null, null);
+        Problem problem = new Problem(problemDto.getId(), problemDto.getTaskName(), problemDto.getTimeLimit(), problemDto.getMemoryLimit(), problemDto.getProblemStatement(), problemDto.getProblemConstraint(), null, null, null);
         problemRepository.save(problem);
         for (SampleCaseDto sampleCaseDto : problemDto.getSampleCases()) {
             SampleCase sampleCase = new SampleCase(sampleCaseDto.getId(), sampleCaseDto.getSampleInput(), sampleCaseDto.getSampleOutput(), problem);
@@ -79,7 +79,25 @@ public class ProblemService {
             testCaseRepository.save(testCase);
             testCases.add(testCase);
         }
-        //problem = new Problem(problemDto.getId(), problemDto.getTaskName(), problemDto.getTimeLimit(), problemDto.getMemoryLimit(), problemDto.getProblemStatement(), problemDto.getProblemConstraint(), sampleCases, testCases);
+    }
+
+    public void putProblem(ProblemDto problemDto) {
+        List<SampleCase> sampleCases = new ArrayList<>();
+        List<TestCase> testCases = new ArrayList<>();
+        sampleCaseRepository.deleteAllByProblemId(problemDto.getId());
+        testCaseRepository.deleteAllByProblemId(problemDto.getId());
+        Problem problem = new Problem(problemDto.getId(), problemDto.getTaskName(), problemDto.getTimeLimit(), problemDto.getMemoryLimit(), problemDto.getProblemStatement(), problemDto.getProblemConstraint(), null, null, null);
+        problemRepository.save(problem);
+        for (SampleCaseDto sampleCaseDto : problemDto.getSampleCases()) {
+            SampleCase sampleCase = new SampleCase(sampleCaseDto.getId(), sampleCaseDto.getSampleInput(), sampleCaseDto.getSampleOutput(), problem);
+            sampleCaseRepository.save(sampleCase);
+            sampleCases.add(sampleCase);
+        }
+        for (TestCaseDto testCaseDto : problemDto.getTestCases()) {
+            TestCase testCase = new TestCase(testCaseDto.getId(), testCaseDto.getInputData(), testCaseDto.getOutputData(), problem);
+            testCaseRepository.save(testCase);
+            testCases.add(testCase);
+        }
     }
 
     public void deleteProblem(String id) {

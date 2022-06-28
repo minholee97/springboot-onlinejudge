@@ -35,4 +35,7 @@ public class Problem {
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
     List<TestCase> testCases = new ArrayList<>();
+
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
+    List<Status> statuses = new ArrayList<>();
 }

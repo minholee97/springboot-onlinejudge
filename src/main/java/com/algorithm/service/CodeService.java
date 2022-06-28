@@ -5,9 +5,11 @@ import com.algorithm.constant.StatusType;
 import com.algorithm.dto.CodeDto;
 import com.algorithm.dto.TestCaseDto;
 import com.algorithm.entity.Member;
+import com.algorithm.entity.Problem;
 import com.algorithm.entity.Status;
 import com.algorithm.entity.TestCase;
 import com.algorithm.repository.MemberRepository;
+import com.algorithm.repository.ProblemRepository;
 import com.algorithm.repository.StatusRepository;
 import com.algorithm.repository.TestCaseRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class CodeService {
     private final StatusRepository statusRepository;
     private final TestCaseRepository testCaseRepository;
     private final MemberRepository memberRepository;
+    private final ProblemRepository problemRepository;
 
     public List<TestCaseDto> loadTestCaseList(Long problemId) {
         List<TestCase> testCaseList = testCaseRepository.findByProblemIdOrderById(problemId);
@@ -38,8 +42,13 @@ public class CodeService {
 
     public Status preprocessing(CodeDto codeDto) {
         Member member = memberRepository.findByEmail(codeDto.getMemberEmail());
+        Optional<Problem> optionalProblem = problemRepository.findById(codeDto.getProblemId());
+        if (!optionalProblem.isPresent())
+            return null;
+        Problem problem = optionalProblem.get();
+
         if (codeDto.getLang().equals("JAVA")) {
-            Status status = new Status(codeDto.getProblemId(), codeDto.getMemberCode(), StatusType.IN_PROGRESS, Language.JAVA, member);
+            Status status = new Status(null, codeDto.getMemberCode(), StatusType.IN_PROGRESS, Language.JAVA, 0, member, problem);
             statusRepository.save(status);
             return status;
         }

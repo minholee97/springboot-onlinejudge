@@ -123,11 +123,11 @@
             var token = $("meta[name='_csrf']").attr('content');
             console.log(newProblemDto)
             $.ajax({
-                url: "/admin/registerProblem",
+                url: "/admin/updateProblem",
                 beforeSend: function(xhr){
                     xhr.setRequestHeader(header, token);
                 },
-                type: "POST",
+                type: "PUT",
                 contentType: "application/json",
                 data: sendData
             })

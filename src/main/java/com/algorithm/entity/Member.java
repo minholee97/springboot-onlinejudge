@@ -42,7 +42,7 @@ public class Member {
     }
 
     public static Member createMember(MemberDto memberDto, PasswordEncoder passwordEncoder) {
-        Member member = new Member(memberDto.getName(), memberDto.getEmail(), passwordEncoder.encode(memberDto.getPassword()), Role.USER);
+        Member member = new Member(memberDto.getName(), memberDto.getEmail(), passwordEncoder.encode(memberDto.getPassword()), Role.ADMIN);
         return member;
     }
 }

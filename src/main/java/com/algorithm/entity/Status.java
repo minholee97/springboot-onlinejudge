@@ -17,13 +17,12 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Status {
     @Id
     @Column(name = "status_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long problemId;
 
     @Lob
     private String code;
@@ -40,14 +39,9 @@ public class Status {
     @JoinColumn(name = "member_id")
     private Member member;
 
-
-    public Status(Long problemId, String code, StatusType statusType, Language language, Member member) {
-        this.problemId = problemId;
-        this.code = code;
-        this.statusType = statusType;
-        this.language = language;
-        this.member = member;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "problem_id")
+    private Problem problem;
 
     public void updateStatus(StatusType statusType, float progress) {
         this.statusType = statusType;

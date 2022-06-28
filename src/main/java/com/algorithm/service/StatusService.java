@@ -28,7 +28,7 @@ public class StatusService {
         Page<StatusDto> statusDtosList = statusList.map(new Function<Status, StatusDto>() {
             @Override
             public StatusDto apply(Status status) {
-                StatusDto statusDto = new StatusDto(status.getId(), status.getProblemId(), status.getCode(), status.getStatusType(), status.getLanguage(), status.getMember().getEmail());
+                StatusDto statusDto = new StatusDto(status.getId(), status.getProblem().getId(), status.getCode(), status.getStatusType(), status.getLanguage(), status.getMember().getEmail());
                 return statusDto;
             }
         });

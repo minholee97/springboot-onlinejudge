@@ -50,6 +50,13 @@ public class AdminContoller {
     }
 
     @ResponseBody
+    @PutMapping("/admin/updateProblem")
+    public String updateProblem(@RequestBody ProblemDto problemDto) {
+        problemService.putProblem(problemDto);
+        return "success";
+    }
+
+    @ResponseBody
     @DeleteMapping("/admin/deleteProblem/{id}")
     public String deleteProblem(@PathVariable String id) {
         problemService.deleteProblem(id);
