@@ -15,6 +15,10 @@
 - spring security
 - Thymeleaf
 
+## ERD
+![erd1](https://user-images.githubusercontent.com/76832861/176327446-c7af09d3-d784-41bd-971b-151cf6f05a53.JPG)
+
+
 ## 구현 목록
 #### 공통 기능
   - 알고리즘 문제 조회
