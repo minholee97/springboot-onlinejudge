@@ -32,13 +32,10 @@ public class ProblemController {
 
     @GetMapping("/problem/{id}")
     public String problemPage(@PathVariable String id, Model model) {
-        System.out.println("asd");
-
         ProblemDto problemDto = problemService.getProblemDto(Long.parseLong(id), false);
         if (problemDto == null)
             return "errorPage";
         model.addAttribute("problemDto", problemDto);
-        System.out.println(problemDto.toString());
         return "problem/problemPage";
     }
 
