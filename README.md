@@ -22,7 +22,7 @@
 ## 3️⃣ 구현 목록
 #### 공통 기능
   - 알고리즘 문제 조회
-  ![image](https://user-images.githubusercontent.com/76832861/177028234-403ff0cb-d001-4fcf-b2f1-4d6a603df7b9.png)
+  ![image](https://user-images.githubusercontent.com/76832861/177028253-c5278235-5c35-4fce-a8c1-8e6d18e79a0e.png)
 
 #### 관리자 기능
   - 알고리즘 문제 등록 (샘플 케이스, 테스트 케이스 포함)
