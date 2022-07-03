@@ -136,7 +136,6 @@
             });
         }
     </script>
-    <h1>문제 등록</h1>
     <form role="form" method="post" action="/admin/problem/register">
         <div class="form-group">
             <label>문제 제목</label>
@@ -190,6 +189,7 @@
         <textarea id="sampleOutput" class="form-control" placeholder="Sample Output"></textarea>
         <input type="button" class="btn btn-primary" onclick="addNewSample();" value="추가"></input>
     </div>
+    <hr>
     <h2>Test Case</h2>
     <div>
         <table class="table">
@@ -206,6 +206,7 @@
         <textarea id="testOutput" class="form-control" placeholder="Test Output"></textarea>
         <input type="button" class="btn btn-primary" onclick="addNewTest();" value="추가"></input>
     </div>
+    <hr>
     <button class="btn btn-primary" onclick="createObject();">문제 수정</button>
 </div>
 
