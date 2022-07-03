@@ -27,10 +27,12 @@
 #### 관리자 기능
   - 알고리즘 문제 등록 (샘플 케이스, 테스트 케이스 포함)
   ![image](https://user-images.githubusercontent.com/76832861/177028368-e204880b-fa73-4112-934b-336476abcda1.png)
+  ***
   ![image](https://user-images.githubusercontent.com/76832861/177028377-53e75b18-5f15-4751-a50e-fec454601dae.png)
 
-  - 알고리즘 문제 수정
-  - 알고리즘 문제 삭제
+  - 알고리즘 문제 수정 / 삭제
+  ![image](https://user-images.githubusercontent.com/76832861/177028406-60d4bfc6-6e98-414c-9f04-57e4cc5d3485.png)
+
 #### 회원 기능
   - 로그인 / 회원가입
   - 소스코드 제출
