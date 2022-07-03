@@ -27,14 +27,18 @@
 #### 관리자 기능
   - 알고리즘 문제 등록 (샘플 케이스, 테스트 케이스 포함)
   ![image](https://user-images.githubusercontent.com/76832861/177028368-e204880b-fa73-4112-934b-336476abcda1.png)
-  ***
-  - ![image](https://user-images.githubusercontent.com/76832861/177028377-53e75b18-5f15-4751-a50e-fec454601dae.png)
+  ![image](https://user-images.githubusercontent.com/76832861/177028377-53e75b18-5f15-4751-a50e-fec454601dae.png)
 
   - 알고리즘 문제 수정 / 삭제
   ![image](https://user-images.githubusercontent.com/76832861/177028406-60d4bfc6-6e98-414c-9f04-57e4cc5d3485.png)
 
 #### 회원 기능
   - 로그인 / 회원가입
+    ![image](https://user-images.githubusercontent.com/76832861/177028485-cab5c804-f2a0-40f8-ab66-6d6e6e6cafb6.png)
+    ![image](https://user-images.githubusercontent.com/76832861/177028494-5fefa1a1-3d9b-471d-b970-c783aa631684.png)
   - 소스코드 제출
+    ![image](https://user-images.githubusercontent.com/76832861/177028529-333ef3e1-eed5-4058-9cbb-001f52776fe0.png)
+    ![image](https://user-images.githubusercontent.com/76832861/177028583-067b49ce-7287-405c-9304-4b222bbd5a6f.png)
   - 채점현황 조회
+    ![image](https://user-images.githubusercontent.com/76832861/177028611-b6626e3d-5a21-471f-a69a-cb8bfafcdade.png)
 
